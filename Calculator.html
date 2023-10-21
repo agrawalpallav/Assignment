@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>AssignmentTest</title>
+</head>
+<style>
+    body {
+        background-color: grey; 
+        margin: 0; 
+        padding: 0; 
+    
+        align-items: center;
+        
+    }
+
+    .operator {
+        cursor: pointer;
+    }
+
+	#one
+	{
+    	width: 250px;      
+        height: 50px;      
+        background-color: whitesmoke; 
+        padding: 10px;     
+        margin: 300px;
+        font-size: 30px;
+        margin-top: 160px;
+        margin-left: 500px;
+
+	}
+
+	#two
+	{
+    	width: 79px;      
+        height: 50px;      
+        background-color: #006666; 
+        padding: 10px;     
+        margin: 300px;
+        margin-top: -370px;
+        margin-left: 750px;
+        text-align: center;
+         display: flex;            
+        justify-content: center;  
+        align-items: center;      
+	}
+
+	#three
+	{
+        width: 210px;
+	    height: 200px;
+	    background-color: #000; 
+	    color: #fff; 
+	    text-align: center; 
+	    padding: 20px; 
+	    margin: 300px;
+	    margin-top: -300px;
+	    margin-left: 500px;
+	    display: grid;
+	    grid-template-columns: repeat(3, 1fr);
+	    gap: 5px;
+	    align-items: center;
+    }
+
+    #four
+    {
+    	width: 59px;
+        height: 200px;
+        background-color:dimgrey;
+        color: #fff; 
+        text-align: center; 
+        padding: 20px; 
+        margin-top: -540px;
+        margin-left: 750px;
+         display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        font-size: 24px;
+    	
+    }
+	
+</style>
+<body>
+	<div id="one"></div>
+	<div id="two"><div class="operator">AC</div></div>
+	<div id ="three">
+		<div class="operator">9</div>
+	    <div class="operator">8</div>
+	    <div class="operator">7</div>
+	    <div class="operator">4</div>
+	    <div class="operator">5</div>
+	    <div class="operator">6</div>
+	    <div class="operator">1</div>
+	    <div class="operator">2</div>
+	    <div class="operator">3</div>
+	    <div class="operator">.</div>
+	    <div class="operator">0</div>
+	    <div class="operator">=</div>
+	</div>
+	<div id="four">
+		<div class="operator">+</div>
+	    <div class="operator">−</div>
+	    <div class="operator">÷</div>
+	    <div class="operator">×</div>
+	</div>
+
+	<script>
+        const operatorButtons = document.querySelectorAll(".operator");
+        const display = document.getElementById("one");
+        let firstNumber = "";
+        let operator = "";
+        let secondNumber = "";
+
+        operatorButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                const value = button.textContent;
+
+                if (value === "AC") {
+                    clearCalculator();
+                } else if (value === "=") {
+                    calculate();
+                } else {
+                    if (value.match(/[0-9\.]/)) {
+                        if (operator === "") {
+                            firstNumber += value;
+                        } else {
+                            secondNumber += value;
+                        }
+                    } else {
+                        operator = value;
+                    }
+                    updateDisplay();
+                }
+            });
+        });
+
+       
+        function clearCalculator() {
+		    firstNumber = "";
+		    operator = "";
+		    secondNumber = "";
+		    display.textContent = ""; // Clear the display
+		}
+
+
+        function calculate() {
+            let result = 0;
+            const num1 = parseFloat(firstNumber);
+            const num2 = parseFloat(secondNumber);
+
+            if (operator === "+") {
+                result = num1 + num2;
+            } else if (operator === "−") {
+                result = num1 - num2;
+            } else if (operator === "×") {
+                result = num1 * num2;
+            } else if (operator === "÷") {
+                if (num2 !== 0) {
+                    result = num1 / num2;
+                } else {
+                    result = "Error";
+                }
+            }
+
+            firstNumber = result.toString();
+            operator = "";
+            secondNumber = "";
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            display.textContent = firstNumber + operator + secondNumber;
+        }
+    </script>
+
+</body>
+</html>

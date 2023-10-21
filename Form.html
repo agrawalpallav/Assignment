@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+
+        button[type="submit"], button#resetBtn {
+            background-color: #3498db; 
+            color: #fff; /* White text color */
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        body {
+            background-color: #3498db; 
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+       
+        .container {
+            background-color: #fff; 
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            margin-left: -340px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        #popup {
+            background-color: rgba(255, 255, 255, 0.9);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        #popup-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h1{
+           color:   #e0ebeb;
+           margin-top: -500px; 
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Customer Survey Form</h1>
+    <div class="container">
+        <form id="surveyForm">
+            <div class="form-group">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" required>
+            </div>
+
+            <div class="form-group">
+                <label for="country">Country:</label>
+                <select id="country" required>
+                    <option value="usa">India</option>
+                    <option value="usa">United States</option>
+                    <option value="canada">Canada</option>
+                    <!-- Add more countries as needed -->
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Gender:</label>
+                <input type="radio" id="male" name="gender" value="Male">
+                <label for="male">Male</label>
+                <input type="radio" id="female" name="gender" value="Female">
+                <label for="female">Female</label>
+            </div>
+
+            <div class="form-group">
+                <label for="profession">Profession:</label>
+                <input type="text" id="profession" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="mobile">Mobile Number:</label>
+                <input type="tel" id="mobile" pattern="[0-9]*" required>
+            </div>
+
+            <div class="form-group">
+                <button type="submit">Submit</button>
+                <button type="button" id="resetBtn">Reset</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="popup" style="display: none;">
+        <div id="popup-content">
+            <h2>Survey Response</h2>
+            <div id="response"></div>
+            <button id="closePopup">Close</button>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('surveyForm');
+        const popup = document.getElementById('popup');
+        const responseDiv = document.getElementById('response');
+        const closePopup = document.getElementById('closePopup');
+        const resetBtn = document.getElementById('resetBtn');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // Get form values
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const dob = document.getElementById('dob').value;
+            const country = document.getElementById('country').value;
+            const gender = Array.from(document.querySelectorAll('input[name="gender"]:checked'))
+                .map(input => input.value);
+            const profession = document.getElementById('profession').value;
+            const email = document.getElementById('email').value;
+            const mobile = document.getElementById('mobile').value;
+
+            // Display the values in the popup
+            responseDiv.innerHTML = `
+                <p><strong>First Name:</strong> ${firstName}</p>
+                <p><strong>Last Name:</strong> ${lastName}</p>
+                <p><strong>Date of Birth:</strong> ${dob}</p>
+                <p><strong>Country:</strong> ${country}</p>
+                <p><strong>Gender:</strong> ${gender.join(', ')}</p>
+                <p><strong>Profession:</strong> ${profession}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Mobile Number:</strong> ${mobile}</p>
+            `;
+
+            // Show the popup
+            popup.style.display = 'block';
+        });
+
+        closePopup.addEventListener('click', function () {
+            // Hide the popup and reset the form
+            popup.style.display = 'none';
+            form.reset();
+        });
+
+        resetBtn.addEventListener('click', function () {
+            // Reset the form
+            form.reset();
+        });
+    </script>
+</body>
+</html>
